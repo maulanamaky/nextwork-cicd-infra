@@ -1,0 +1,17 @@
+variable "ami" {
+    type = string
+    default = "resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
+}
+
+variable "instance_type" {
+    type = string
+    default = "t3.micro"
+}
+
+variable "key_name" {
+    type = string
+}
+
+variable "ec2_name" {
+    type = string
+}
