@@ -2,7 +2,7 @@ variable "compute_platform" {
     type = string
 }
 
-variable "name" {
+variable "app_name" {
     type = string
 }
 

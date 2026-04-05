@@ -1,6 +1,6 @@
 resource "aws_codedeploy_app" "nextwork_codedeploy" {
   compute_platform = var.compute_platform
-  name             = var.name
+  name             = var.app_name
 }
 
 resource "aws_codedeploy_deployment_group" "nextwork_deploy_group" {

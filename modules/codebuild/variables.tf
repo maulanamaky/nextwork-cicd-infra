@@ -2,11 +2,11 @@ variable "build_timeout" {
     type = number
 }
 
-variable "codebuild_iam_role" {
+variable "project_iam_role" {
     type = string
 }
 
-variable "codebuild_name" {
+variable "project_name" {
     type = string
 }
 

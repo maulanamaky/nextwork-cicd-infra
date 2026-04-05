@@ -1,7 +1,7 @@
 resource "aws_codebuild_project" "nextwork_build_project" {
-  name          = var.codebuild_name
+  name          = var.project_name
   build_timeout = var.build_timeout
-  service_role  = var.codebuild_iam_role
+  service_role  = var.project_iam_role
 
   source {
     type = "CODEPIPELINE"

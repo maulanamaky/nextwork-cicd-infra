@@ -7,18 +7,18 @@ variable "versioning_status" {
 }
 
 variable "block_public_acls" {
-    type = boolean
+    type = bool
 }
 
 variable "block_public_policy" {
-    type = boolean
+    type = bool
 }
 
 variable "ignore_public_acls" {
-    type = boolean
+    type = bool
 }
 
 variable "restrict_public_buckets" {
-    type = boolean
+    type = bool
 }
 

@@ -1,3 +1,10 @@
+locals {
+  project_name = "nextwork-devops-cicd"
+  app_name = "Nextwork"
+  deployment_group_name = "nextwork-deploy-group"
+  region = "us-east1"
+}
+
 module "key" {
   source = "./modules/key"
 
@@ -12,12 +19,12 @@ module "iam" {
   cloudwatch_log_arn    = module.cloudwatch.log_group_arn
   codeartifact_repo_arn = module.codeartifact.repo_arn
   codeconnection_arn = module.codeconnection.codeconnection_arn
-  codebuild_arn = module.codebuild.codebuild_arn
-  codedeploy_arn = module.codedeploy.codedeploy_arn
+  codebuild_arn = "arn:aws:codebuild:${local.region}:${var.account_id}:project/${local.project_name}"
+  codedeploy_arn = "arn:aws:codedeploy:${local.region}:${var.account_id}:deploymentgroup:${local.app_name}/${local.deployment_group_name}"
 }
 
 module "ec2" {
-  source = "./modules/ec2"
+  source = "./modules/ec2"  
 
   ec2_name      = "nextwork-instance"
   key_name      = module.key.key_name
@@ -41,15 +48,15 @@ module "codeconnection" {
   source = "./modules/codeconnection"
 
   connection_name = "nextwork-connection"
-  provider_type   = "Github"
+  provider_type   = "GitHub"
 }
 
 module "codebuild" {
   source = "./modules/codebuild"
 
-  codebuild_name     = "nextwork-devops-cicd"
+  project_name     = local.project_name
   build_timeout      = 5
-  codebuild_iam_role = module.iam.codebuild_iam_role_arn
+  project_iam_role = module.iam.codebuild_role_arn
 
   cloudwatch_group_name = module.cloudwatch.group_name
   cloudwatch_stream_name = module.cloudwatch.stream_name
@@ -71,10 +78,10 @@ module "codedeploy" {
   source = "./modules/codedeploy"
 
   compute_platform = "Server"
-  name = "Nextwork"
-  deployment_group_name = "nextwork-deploy-group"
+  app_name = local.app_name
+  deployment_group_name = local.deployment_group_name
   codedeploy_role_arn = module.iam.codedeploy_role_arn
-  ec2_tag_value = module.ec2_production.ec2_tag_name
+  ec2_tag_name = module.ec2-prod.ec2_tag_name
 }
 
 module "codepipeline" {
